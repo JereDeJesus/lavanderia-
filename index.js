@@ -9,6 +9,9 @@ let conexion = mysql.createConnection({
     database: "usuarios",
     user: "root",
     password: "", // Asegúrate de usar la contraseña correcta
+     waitForConnections: true,
+    connectionLimit: 10,  // Número máximo de conexiones
+    queueLimit: 0
 });
 
 conexion.connect(function (err) {

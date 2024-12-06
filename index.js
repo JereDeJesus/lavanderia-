@@ -3,27 +3,15 @@ const mysql = require("mysql2");
 const path = require("path");
 const app = express();
 
-// Configuración de la conexión a la base de datos
-let conexion = mysql.createConnection({
+// Configuración del pool de conexiones
+const pool = mysql.createPool({
     host: "localhost",
     database: "usuarios",
     user: "root",
     password: "", // Asegúrate de usar la contraseña correcta
-     waitForConnections: true,
-    connectionLimit: 10,  // Número máximo de conexiones
+    waitForConnections: true,
+    connectionLimit: 10, // Número máximo de conexiones simultáneas
     queueLimit: 0
-});
-
-
-// Usar el pool para hacer consultas
-pool.query(registrar, function (error, results) {
-    if (error) {
-        console.error("Error al almacenar los datos:", error);
-        res.status(500).send("Error al almacenar los datos.");
-    } else {
-        console.log("Datos almacenados correctamente");
-        res.send("Datos almacenados correctamente.");
-    }
 });
 
 // Configuración de EJS y middleware
@@ -51,27 +39,22 @@ app.post("/add", (req, res) => {
     let correo = datos.correo;
     let comentario = datos.comentario;
 
-        // Obtener la dirección IP del cliente
-   
+    // Obtener la dirección IP del cliente
     let direccion_ip = req.ip;
 
-// Si la IP es ::1, la cambiamos a 127.0.0.1
-if (direccion_ip === '::1') {
-    direccion_ip = '127.0.0.1';
-}
-
+    // Si la IP es ::1, la cambiamos a 127.0.0.1
+    if (direccion_ip === '::1') {
+        direccion_ip = '127.0.0.1';
+    }
 
     // Obtener la fecha y hora actual
     const fecha_hora = new Date(); // Fecha y hora de la solicitud
 
-
-
     const registrar = `INSERT INTO contactosmodel (nombre, correo, comentario, direccion_ip, fecha_hora) 
     VALUES ('${nombre}', '${correo}', '${comentario}', '${direccion_ip}', '${fecha_hora.toISOString()}')`;
 
-    conexion.query(registrar, function (error) {
-        
-        
+    // Usar el pool para ejecutar la consulta
+    pool.query(registrar, function (error) {
         if (error) {
             console.error("Error al almacenar los datos:", error);
             res.status(500).send("Error al almacenar los datos.");

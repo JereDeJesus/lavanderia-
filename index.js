@@ -14,12 +14,16 @@ let conexion = mysql.createConnection({
     queueLimit: 0
 });
 
-conexion.connect(function (err) {
-    if (err) {
-        console.error("Error al conectar con la base de datos:", err.stack);
-        return;
+
+// Usar el pool para hacer consultas
+pool.query(registrar, function (error, results) {
+    if (error) {
+        console.error("Error al almacenar los datos:", error);
+        res.status(500).send("Error al almacenar los datos.");
+    } else {
+        console.log("Datos almacenados correctamente");
+        res.send("Datos almacenados correctamente.");
     }
-    console.log("Conectado a la base de datos como ID", conexion.threadId);
 });
 
 // Configuración de EJS y middleware

@@ -5,7 +5,7 @@ const app = express();
 
 // Configuración de la conexión a la base de datos
 let conexion = mysql.createConnection({
-    host: "localhost",
+    host: "mysql-server-url-render",
     database: "usuarios",
     user: "root",
     password: "", // Asegúrate de usar la contraseña correcta

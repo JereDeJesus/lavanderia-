@@ -5,7 +5,7 @@ const app = express();
 
 // Configuración del pool de conexiones
 const pool = mysql.createPool({
-    host: "http://localhost:8080/phpmyadmin/index.php?route=/database/structure&db=usuarios",
+    host: "127.0.0.1",
     database: "usuarios",
     user: "root",
     password: "", // Asegúrate de usar la contraseña correcta

@@ -9,10 +9,8 @@ const PORT = 3000;
 app.use(express.json());
 
 // Conexión a la base de datos MongoDB
-mongoose.connect('mongodb://localhost:27017/contactoDB', { 
-  useNewUrlParser: true, 
-  useUnifiedTopology: true 
-})
+mongoose.connect('mongodb+srv://usuario:contraseña@cluster0.mongodb.net/contactoDB', { useNewUrlParser: true, useUnifiedTopology: true })
+
 .then(() => console.log('Conectado a MongoDB'))
 .catch(err => console.error('Error al conectar a MongoDB:', err));
 

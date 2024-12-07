@@ -32,7 +32,7 @@ app.get("/formulario", (req, res) => {
 });
 
 // Ruta para manejar el envío del formulario de registro
-app.post("/add", (req, res) => {
+app.post("/formulario", (req, res) => {
     const datos = req.body;
 
     let nombre = datos.nombre;

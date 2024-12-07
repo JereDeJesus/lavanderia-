@@ -1,30 +1,19 @@
-// controllers/contactoController.js
 const ContactoService = require('../services/contactoService');
 
-class ContactoController {
-  // Método para mostrar el formulario de contacto
-  static showForm(req, res) {
-    res.render('index', { title: 'Formulario de Contacto', message: '¡Bienvenido!' });
+const agregarContacto = async (req, res) => {
+  const { nombre, correo, comentario } = req.body;
+
+  const direccion_ip = req.ip === '::1' ? '127.0.0.1' : req.ip; // Ajuste para obtener la dirección IP correctamente
+
+  const resultado = await ContactoService.addContacto(nombre, correo, comentario, direccion_ip);
+
+  if (resultado) {
+    res.status(201).send({ mensaje: 'Contacto creado exitosamente.' });
+  } else {
+    res.status(500).send({ mensaje: 'Error al guardar el contacto.' });
   }
+};
 
-  // Método para guardar un contacto en la base de datos usando el servicio
-  static async saveContacto(req, res) {
-    const { nombre, correo, comentario } = req.body;
-
-    // Validar que todos los campos estén presentes
-    if (!nombre || !correo || !comentario) {
-      return res.status(400).send('Todos los campos son obligatorios.');
-    }
-
-    // Llamar al servicio para agregar el contacto
-    const success = await ContactoService.addContacto(nombre, correo, comentario);
-
-    if (success) {
-      res.status(201).send('Comentario enviado con éxito.');
-    } else {
-      res.status(500).send('Error al guardar el comentario.');
-    }
-  }
-}
-
-module.exports = ContactoController;
+module.exports = {
+  agregarContacto,
+};

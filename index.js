@@ -6,7 +6,7 @@ const app = express();
 // Configuración del pool de conexiones
 const pool = mysql.createPool({
     host: "127.0.0.1",
-    database: "usuarios",
+    database: "contacto",
     user: "root",
     password: "", // Asegúrate de usar la contraseña correcta
     waitForConnections: true,

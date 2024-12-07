@@ -22,7 +22,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.get('/', contactoController.showForm);
 
 // Ruta para manejar el envío del formulario de contacto
-app.post('/formulario', contactoController.saveContacto);
+app.post('/guardar', contactoController.saveContacto);
 
 // Inicia el servidor
 app.listen(PORT, () => {
